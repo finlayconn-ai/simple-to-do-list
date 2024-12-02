@@ -15,7 +15,7 @@ const taskList = document.getElementById('taskList');
 taskInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         event.preventDefault(); // Prevent form submission default behavior
-        document.getElementById('addTaskBtn').click(); // Trigger the add task button
+        addTaskBtn.click(); // Trigger the add task button
     }
 });
 
@@ -24,13 +24,11 @@ addTaskBtn.addEventListener('click', () => {
   const task = taskInput.value.trim();
   if (task === '') return;
 
-  // Instead of directly creating DOM elements, add to tasks array
   tasks.push({ text: task, completed: false });
   saveTasks();
   renderTasks();  // Render all tasks
   
-  // Clear the input field
-  taskInput.value = '';
+  taskInput.value = ''; // Clear the input field
 });
 
 // Add this new function to handle displaying tasks
