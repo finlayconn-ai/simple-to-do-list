@@ -21,14 +21,19 @@ async function fetchTasks() {
 
 // Add task to Supabase
 async function addTask(text) {
+    console.log('addTask function called with:', text); // Debug log
     try {
         const { data, error } = await supabase
             .from('tasks')
             .insert([{ text, completed: false }])
             .select()
         
-        if (error) throw error
+        if (error) {
+            console.error('Supabase error:', error); // Debug log
+            throw error
+        }
         
+        console.log('Task added successfully:', data); // Debug log
         tasks.push(data[0])
         renderTasks()
         showNotification('Task added successfully')
@@ -96,11 +101,16 @@ taskInput.addEventListener('keypress', function(event) {
 
 // Add task when button is clicked
 addTaskBtn.addEventListener('click', () => {
-  const task = taskInput.value.trim();
-  if (task === '') return;
+    console.log('Add button clicked'); // Debug log
+    const task = taskInput.value.trim();
+    if (task === '') {
+        console.log('Task is empty'); // Debug log
+        return;
+    }
 
-  addTask(task);
-  taskInput.value = ''; // Clear the input field
+    console.log('Attempting to add task:', task); // Debug log
+    addTask(task);
+    taskInput.value = ''; // Clear the input field
 });
 
 // Add this new function to handle displaying tasks
