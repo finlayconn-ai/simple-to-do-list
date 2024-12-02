@@ -1,105 +1,171 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* Base Styles */
+* {
     margin: 0;
-  }
-  
-  .app {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-  }
-  
-  input {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    padding: 10px;
-    background: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background: #218838;
-  }
-  
-  ul {
-    list-style: none;
     padding: 0;
-  }
-  
-  li {
-    padding: 10px;
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
-    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    min-height: 100vh;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 2rem 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Input Container Styles */
+.input-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
     display: flex;
-    justify-content: space-between;
-  }
-  
-  li button {
-    background: #dc3545;
-    color: #fff;
+    gap: 1rem;
+}
+
+input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #007AFF;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    background: #007AFF;
+    color: white;
     border: none;
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-  }
-  
-  li button:hover {
-    background: #c82333;
-  }
-  
-  .completed {
-    text-decoration: line-through;
-    color: #9CA3AF;
-  }
-  
-  #taskList li {
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* Tasks Container Styles */
+.tasks-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+#taskList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#taskList li {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
-    border: 1px solid #E5E7EB;
-    border-radius: 0.375rem;
-    background-color: #F9FAFB;
-  }
-  
-  #taskList button {
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    transition: all 0.2s;
-  }
-  
-  #taskList button:first-of-type {
-    background-color: #10B981;
-    color: white;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+}
+
+#taskList li:hover {
+    transform: translateX(4px);
+    border-color: #007AFF;
+}
+
+#taskList button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+#taskList button:first-of-type {
+    background: #34C759;
     margin-right: 0.5rem;
-  }
-  
-  #taskList button:last-of-type {
-    background-color: #EF4444;
-    color: white;
-  }
-  
-  #taskList button:hover {
-    opacity: 0.9;
-  }
+}
+
+#taskList button:first-of-type:hover {
+    background: #2da84c;
+}
+
+#taskList button:last-of-type {
+    background: #FF3B30;
+}
+
+#taskList button:last-of-type:hover {
+    background: #d63029;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .input-container {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    #taskList li {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
+
+    #taskList button {
+        width: 100%;
+    }
+}
   
