@@ -11,6 +11,14 @@ const taskInput = document.getElementById('taskInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const taskList = document.getElementById('taskList');
 
+// Add event listener for the Enter key
+taskInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent form submission default behavior
+        document.getElementById('addTaskBtn').click(); // Trigger the add task button
+    }
+});
+
 // Add task when button is clicked
 addTaskBtn.addEventListener('click', () => {
   const task = taskInput.value.trim();
@@ -55,5 +63,3 @@ function deleteTask(index) {
 
 // Add at the bottom of the file
 renderTasks();  // Initial render
-
-
