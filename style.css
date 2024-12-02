@@ -168,4 +168,84 @@ h2 {
         width: 100%;
     }
 }
+
+/* Add these styles to your existing CSS */
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.task-checkbox {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+    accent-color: #34C759;
+}
+
+#taskList li {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+}
+
+/* Update the delete button style */
+.delete-btn {
+    background: #FF3B30;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.delete-btn:hover {
+    background: #d63029;
+}
+
+/* Update responsive styles */
+@media (max-width: 768px) {
+    #taskList li {
+        flex-direction: row; /* Keep horizontal layout */
+        gap: 1rem;
+    }
+
+    .delete-btn {
+        width: auto; /* Override previous full-width style */
+    }
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+    z-index: 1000;
+}
+
+.notification.success {
+    background-color: #34C759;
+}
+
+.notification.error {
+    background-color: #FF3B30;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
   

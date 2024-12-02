@@ -1,10 +1,85 @@
-// Add at the top of the file
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+import { supabase } from './supabase.js'
 
-// Add this helper function
-function saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+// Fetch tasks from Supabase
+async function fetchTasks() {
+    try {
+        const { data, error } = await supabase
+            .from('tasks')
+            .select('*')
+            .order('created_at', { ascending: true })
+        
+        if (error) throw error
+        
+        tasks = data
+        renderTasks()
+        showNotification('Tasks loaded successfully')
+    } catch (error) {
+        console.error('Error fetching tasks:', error)
+        showNotification('Failed to load tasks: ' + error.message, true)
+    }
 }
+
+// Add task to Supabase
+async function addTask(text) {
+    try {
+        const { data, error } = await supabase
+            .from('tasks')
+            .insert([{ text, completed: false }])
+            .select()
+        
+        if (error) throw error
+        
+        tasks.push(data[0])
+        renderTasks()
+        showNotification('Task added successfully')
+    } catch (error) {
+        console.error('Error adding task:', error)
+        showNotification('Failed to add task: ' + error.message, true)
+    }
+}
+
+// Toggle task in Supabase
+async function toggleTask(index) {
+    try {
+        const task = tasks[index]
+        const { error } = await supabase
+            .from('tasks')
+            .update({ completed: !task.completed })
+            .eq('id', task.id)
+        
+        if (error) throw error
+        
+        task.completed = !task.completed
+        renderTasks()
+        showNotification('Task updated successfully')
+    } catch (error) {
+        console.error('Error toggling task:', error)
+        showNotification('Failed to update task: ' + error.message, true)
+    }
+}
+
+// Delete task from Supabase
+async function deleteTask(index) {
+    try {
+        const task = tasks[index]
+        const { error } = await supabase
+            .from('tasks')
+            .delete()
+            .eq('id', task.id)
+        
+        if (error) throw error
+        
+        tasks.splice(index, 1)
+        renderTasks()
+        showNotification('Task deleted successfully')
+    } catch (error) {
+        console.error('Error deleting task:', error)
+        showNotification('Failed to delete task: ' + error.message, true)
+    }
+}
+
+// Initial load
+fetchTasks()
 
 // Select input and button
 const taskInput = document.getElementById('taskInput');
@@ -24,10 +99,7 @@ addTaskBtn.addEventListener('click', () => {
   const task = taskInput.value.trim();
   if (task === '') return;
 
-  tasks.push({ text: task, completed: false });
-  saveTasks();
-  renderTasks();  // Render all tasks
-  
+  addTask(task);
   taskInput.value = ''; // Clear the input field
 });
 
@@ -38,26 +110,29 @@ function renderTasks() {
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
         li.innerHTML = `
-            <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
-            <button onclick="toggleTask(${index})">Toggle</button>
-            <button onclick="deleteTask(${index})">Delete</button>
+            <div class="task-item">
+                <input type="checkbox" 
+                    class="task-checkbox" 
+                    ${task.completed ? 'checked' : ''} 
+                    onchange="toggleTask(${index})"
+                >
+                <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
+            </div>
+            <button onclick="deleteTask(${index})" class="delete-btn">Delete</button>
         `;
         taskList.appendChild(li);
     });
 }
 
-// Add these helper functions
-function toggleTask(index) {
-    tasks[index].completed = !tasks[index].completed;
-    saveTasks();
-    renderTasks();
-}
+// Add this function to show notifications
+function showNotification(message, isError = false) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${isError ? 'error' : 'success'}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
 
-function deleteTask(index) {
-    tasks.splice(index, 1);
-    saveTasks();
-    renderTasks();
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
-
-// Add at the bottom of the file
-renderTasks();  // Initial render
